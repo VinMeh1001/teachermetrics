@@ -6,9 +6,24 @@ import TopStudents from "@/components/TopStudents";
 import LoginModal from "@/components/LoginModal";
 import CollegeSearch from "@/components/CollegeSearch";
 import UserDashboard from "@/components/UserDashboard";
+import { useToast } from "@/components/ui/use-toast";
 
 const Index = () => {
   const [showLogin, setShowLogin] = useState(false);
+  const { toast } = useToast();
+
+  const handleSearchResult = (result: {
+    id: number;
+    name: string;
+    type: string;
+    country: string;
+    institution?: string;
+  }) => {
+    toast({
+      title: `Selected ${result.type}`,
+      description: `${result.name} ${result.institution ? `from ${result.institution}` : ''} (${result.country})`,
+    });
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-100 via-white to-blue-100">
@@ -29,7 +44,7 @@ const Index = () => {
             Get Started <ArrowRight className="ml-2" />
           </Button>
           <div className="max-w-md mx-auto">
-            <CollegeSearch onSelect={(college) => console.log(college)} />
+            <CollegeSearch onSelect={handleSearchResult} />
           </div>
         </div>
       </div>
