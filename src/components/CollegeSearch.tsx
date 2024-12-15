@@ -28,7 +28,11 @@ interface CollegeSearchProps {
 
 const CollegeSearch = ({ onSelect }: CollegeSearchProps) => {
   const [open, setOpen] = useState(false);
-  const [value, setValue] = useState("");
+  const [searchValue, setSearchValue] = useState("");
+
+  const filteredColleges = mockColleges.filter((college) =>
+    college.name.toLowerCase().includes(searchValue.toLowerCase())
+  );
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -36,24 +40,29 @@ const CollegeSearch = ({ onSelect }: CollegeSearchProps) => {
         <div className="relative">
           <Input
             placeholder="Search for your college..."
-            value={value}
-            onChange={(e) => setValue(e.target.value)}
+            value={searchValue}
+            onChange={(e) => setSearchValue(e.target.value)}
             className="pl-10"
           />
           <Search className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
         </div>
       </PopoverTrigger>
-      <PopoverContent className="w-[400px] p-0">
+      <PopoverContent className="w-[400px] p-0" align="start">
         <Command>
-          <CommandInput placeholder="Search colleges..." />
+          <CommandInput 
+            placeholder="Search colleges..."
+            value={searchValue}
+            onValueChange={setSearchValue}
+          />
           <CommandEmpty>No college found.</CommandEmpty>
           <CommandGroup heading="Suggestions">
-            {mockColleges.map((college) => (
+            {filteredColleges.map((college) => (
               <CommandItem
                 key={college.id}
+                value={college.name}
                 onSelect={() => {
                   onSelect(college);
-                  setValue(college.name);
+                  setSearchValue(college.name);
                   setOpen(false);
                 }}
                 className="flex items-center justify-between"
