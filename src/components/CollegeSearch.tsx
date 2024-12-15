@@ -7,6 +7,7 @@ import {
   CommandGroup,
   CommandInput,
   CommandItem,
+  CommandList,
 } from "@/components/ui/command";
 import {
   Popover,
@@ -54,24 +55,26 @@ const CollegeSearch = ({ onSelect }: CollegeSearchProps) => {
             value={searchValue}
             onValueChange={setSearchValue}
           />
-          <CommandEmpty>No college found.</CommandEmpty>
-          <CommandGroup heading="Suggestions">
-            {filteredColleges.map((college) => (
-              <CommandItem
-                key={college.id}
-                value={college.name}
-                onSelect={() => {
-                  onSelect(college);
-                  setSearchValue(college.name);
-                  setOpen(false);
-                }}
-                className="flex items-center justify-between"
-              >
-                <span>{college.name}</span>
-                <span className="text-sm text-gray-500">{college.country}</span>
-              </CommandItem>
-            ))}
-          </CommandGroup>
+          <CommandList>
+            <CommandEmpty>No college found.</CommandEmpty>
+            <CommandGroup heading="Suggestions">
+              {filteredColleges.map((college) => (
+                <CommandItem
+                  key={college.id}
+                  value={college.name}
+                  onSelect={() => {
+                    onSelect(college);
+                    setSearchValue(college.name);
+                    setOpen(false);
+                  }}
+                  className="flex items-center justify-between"
+                >
+                  <span>{college.name}</span>
+                  <span className="text-sm text-gray-500">{college.country}</span>
+                </CommandItem>
+              ))}
+            </CommandGroup>
+          </CommandList>
         </Command>
       </PopoverContent>
     </Popover>
