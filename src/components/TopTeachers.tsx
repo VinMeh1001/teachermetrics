@@ -1,4 +1,4 @@
-import { Star } from "lucide-react";
+import { Star, School } from "lucide-react";
 import {
   Card,
   CardContent,
@@ -12,6 +12,7 @@ const mockTeachers = [
     id: 1,
     name: "Dr. Sarah Johnson",
     institution: "Harvard University",
+    department: "Computer Science Department",
     subject: "Computer Science",
     rating: 4.9,
     location: "United States",
@@ -21,6 +22,7 @@ const mockTeachers = [
     id: 2,
     name: "Prof. Michael Chen",
     institution: "Stanford University",
+    department: "Physics Department",
     subject: "Physics",
     rating: 4.8,
     location: "United States",
@@ -30,6 +32,7 @@ const mockTeachers = [
     id: 3,
     name: "Dr. Emma Williams",
     institution: "Oxford University",
+    department: "Literature Department",
     subject: "Literature",
     rating: 4.7,
     location: "United Kingdom",
@@ -50,7 +53,10 @@ const TopTeachers = () => {
             />
             <div>
               <CardTitle className="text-lg">{teacher.name}</CardTitle>
-              <CardDescription>{teacher.institution}</CardDescription>
+              <CardDescription className="flex items-center gap-1">
+                <School className="w-4 h-4" />
+                {teacher.institution}
+              </CardDescription>
             </div>
           </CardHeader>
           <CardContent>
@@ -59,6 +65,7 @@ const TopTeachers = () => {
               <span className="font-semibold">{teacher.rating}</span>
             </div>
             <div className="text-sm text-gray-600">
+              <p>{teacher.department}</p>
               <p>{teacher.subject}</p>
               <p>{teacher.location}</p>
             </div>

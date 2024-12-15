@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Star, Award, Share2, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import TopTeachers from "@/components/TopTeachers";
+import TopStudents from "@/components/TopStudents";
 import LoginModal from "@/components/LoginModal";
 
 const Index = () => {
@@ -55,6 +56,12 @@ const Index = () => {
       <div className="container px-4 py-12">
         <h2 className="text-3xl font-bold text-center mb-8">Top Rated Teachers</h2>
         <TopTeachers />
+      </div>
+
+      {/* Top Students Section */}
+      <div className="container px-4 py-12">
+        <h2 className="text-3xl font-bold text-center mb-8">Top Rated Students</h2>
+        <TopStudents />
       </div>
 
       {/* Login Modal */}
