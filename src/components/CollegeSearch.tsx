@@ -35,7 +35,7 @@ const CollegeSearch = ({ onSelect }: CollegeSearchProps) => {
     const [loading, setLoading] = useState(true); // Loading state
     const [error, setError] = useState<string | null>(null); // Error state
 
-    const apiKey = 'YOUR_API_KEY'; // Replace with your actual Google Places API key
+    const apiKey = 'AIzaSyAn94lwvUD8OqfBQxGgsTuEWr-oilb9c3U'; // Replace with your actual Google Places API key
     const city = 'New York'; // Replace with the desired city
 
     // Function to fetch colleges based on city
