@@ -16,43 +16,11 @@ import {
 } from "@/components/ui/popover";
 import axios from 'axios';
 
-// Define the search colleges function
-async function searchColleges(city: string, apiKey: string) {
-    const endpoint = 'https://maps.googleapis.com/maps/api/place/textsearch/json';
-    const query = `colleges in ${city}`;
-    
-    try {
-        const response = await axios.get(endpoint, {
-            params: {
-                query: query,
-                key: apiKey
-            }
-        });
-
-        if (response.data.results) {
-            const colleges = response.data.results.map((college, index) => ({
-                id: index + 1,
-                name: college.name + ' ' + college.formatted_address,
-                country: college.formatted_address.split(",").pop().trim(),
-                type: 'college'
-            }));
-
-            return { colleges };
-        } else {
-            return { error: 'No results found' };
-        }
-    } catch (error) {
-        console.error('Error fetching data from Google Places API:', error);
-        return { error: 'Failed to retrieve data' };
-    }
-}
-
 interface SearchResult {
     id: number;
     name: string;
     country: string;
     type: "college" | "teacher" | "student";
-    institution?: string;
 }
 
 interface CollegeSearchProps {
@@ -62,8 +30,51 @@ interface CollegeSearchProps {
 const CollegeSearch = ({ onSelect }: CollegeSearchProps) => {
     const [open, setOpen] = useState(false);
     const [searchValue, setSearchValue] = useState("");
+    const [colleges, setColleges] = useState<SearchResult[]>([]);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState<string | null>(null);
 
-    // Add your filtering logic and rendering here...
+    const apiKey = 'AIzaSyAn94lwvUD8OqfBQxGgsTuEWr-oilb9c3U'; // Replace with your actual Google Places API key
+
+    const fetchColleges = async (city: string) => {
+        setLoading(true);
+        setError(null);
+        try {
+            const endpoint = 'https://maps.googleapis.com/maps/api/place/textsearch/json';
+            const query = `colleges in ${city}`;
+            const response = await axios.get(endpoint, {
+                params: {
+                    query: query,
+                    key: apiKey
+                }
+            });
+
+            if (response.data.results) {
+                const fetchedColleges = response.data.results.map((college, index) => ({
+                    id: index + 1,
+                    name: college.name + ' ' + college.formatted_address,
+                    country: college.formatted_address.split(",").pop().trim(),
+                    type: 'college'
+                }));
+                setColleges(fetchedColleges);
+            } else {
+                setError('No results found');
+            }
+        } catch (err) {
+            console.error('Error fetching data from Google Places API:', err);
+            setError('Failed to retrieve data');
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    // Trigger fetch when search value changes
+    const handleSearchChange = (value: string) => {
+        setSearchValue(value);
+        if (value.length > 2) { // Fetch only if input length is greater than 2
+            fetchColleges(value); // Call fetch with the city name
+        }
+    };
 
     return (
         <Popover open={open} onOpenChange={setOpen}>
@@ -72,7 +83,7 @@ const CollegeSearch = ({ onSelect }: CollegeSearchProps) => {
                     <Input 
                         placeholder="Search colleges..." 
                         value={searchValue} 
-                        onChange={(e) => setSearchValue(e.target.value)} 
+                        onChange={(e) => handleSearchChange(e.target.value)} 
                         className="pl-10" 
                     />
                     <Search className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
@@ -82,7 +93,22 @@ const CollegeSearch = ({ onSelect }: CollegeSearchProps) => {
                 <Command>
                     <CommandInput placeholder="Search..." value={searchValue} onValueChange={setSearchValue} />
                     <CommandList>
-                        {/* Add your command items here */}
+                        {loading && <div>Loading...</div>}
+                        {error && <div>Error: {error}</div>}
+                        {colleges.length > 0 ? (
+                            colleges.map((result) => (
+                                <CommandItem key={`college-${result.id}`} value={result.name} onSelect={() => {
+                                    onSelect(result);
+                                    setSearchValue(result.name);
+                                    setOpen(false);
+                                }} className="flex items-center justify-between">
+                                    <span>{result.name}</span>
+                                    <span className="text-sm text-gray-500">{result.country}</span>
+                                </CommandItem>
+                            ))
+                        ) : (
+                            <CommandEmpty>No results found.</CommandEmpty>
+                        )}
                     </CommandList>
                 </Command>
             </PopoverContent>
@@ -90,5 +116,4 @@ const CollegeSearch = ({ onSelect }: CollegeSearchProps) => {
     );
 };
 
-// Ensure there's only one default export
 export default CollegeSearch;
