@@ -16,8 +16,6 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />
-          {/* Add CollegeSearch route if needed */}
-          {/* <Route path="/search" element={<CollegeSearch onSelect={handleSelect} />} /> */}
         </Routes>
       </BrowserRouter>
     </TooltipProvider>
@@ -25,3 +23,6 @@ const App = () => (
 );
 
 export default App;
+
+
+
