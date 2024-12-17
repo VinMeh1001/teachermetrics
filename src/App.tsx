@@ -4,7 +4,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
-import CollegeSearch from 'topperteacher/src/components/CollegeSearch'; // Import your CollegeSearch component
+import CollegeSearch from 'topperteacher/blob/VinMeh1001-patch-1/src/components/CollegeSearch'; // Import your CollegeSearch component
 
 const queryClient = new QueryClient();
 
