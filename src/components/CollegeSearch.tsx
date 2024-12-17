@@ -75,13 +75,43 @@ const CollegeSearch = ({ onSelect }: CollegeSearchProps) => {
         }
     };
 
-    // Trigger fetch when search value changes
+
+ // Trigger fetch when search value changes
     const handleSearchChange = (value: string) => {
         setSearchValue(value);
         if (value.length > 2) { // Fetch only if input length is greater than 2
             fetchColleges(value); // Call fetch with the city name
         }
     };
+  
+// Mock data for testing purposes (optional)
+    const mockData = {
+        colleges: [
+            { id: 1, name: "Harvard University", country: "United States", type: "college" },
+            { id: 2, name: "Oxford University", country: "United Kingdom", type: "college" },
+            { id: 3, name: "Stanford University", country: "United States", type: "college" },
+        ],
+        teachers: [
+            { id: 1, name: "Dr. Sarah Johnson", country: "United States", type: "teacher", institution: "Harvard University" },
+            { id: 2, name: "Prof. James Smith", country: "United Kingdom", type: "teacher", institution: "Oxford University" },
+        ],
+        students: [
+            { id: 1, name: "Alex Thompson", country: "United States", type: "student", institution: "Harvard University" },
+            { id: 2, name: "James Wilson", country: "United Kingdom", type: "student", institution: "Oxford University" },
+        ],
+    };
+
+  
+   // Filtering logic based on search value
+    const filterResults = (query: string): SearchResult[] => {
+        const lowercaseQuery = query.toLowerCase();
+        return mockData.colleges.filter(college =>
+            college.name.toLowerCase().includes(lowercaseQuery) ||
+            college.country.toLowerCase().includes(lowercaseQuery)
+        );
+    };
+
+    const filteredResults = filterResults(searchValue);
 
     return (
         <Popover open={open} onOpenChange={setOpen}>
