@@ -14,6 +14,52 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+const axios = require('axios');
+
+async function searchColleges(city, apiKey) {
+    // Define the endpoint and parameters for the API request
+    const endpoint = 'https://maps.googleapis.com/maps/api/place/textsearch/json';
+    const query = `colleges in ${city}`;
+    
+    try {
+        // Make the API request
+        const response = await axios.get(endpoint, {
+            params: {
+                query: query,
+                key: apiKey
+            }
+        });
+
+        // Check if results are available
+        if (response.data.results) {
+            const colleges = response.data.results.map((college, index) => ({
+                id: index + 1,
+                name: college.name+' '+college.formatted_address,
+                country: college.formatted_address.split(",").pop().trim(), // Extract country from address
+                type: 'college' // Assuming all results are colleges
+            }));
+
+            return { colleges };
+        } else {
+            return { error: 'No results found' };
+        }
+    } catch (error) {
+        console.error('Error fetching data from Google Places API:', error);
+        return { error: 'Failed to retrieve data' };
+    }
+}
+
+// Example usage
+const apiKey = 'AIzaSyAn94lwvUD8OqfBQxGgsTuEWr-oilb9c3U'; // Replace with your actual Google Places API key
+const city = 'New York';
+
+searchColleges(city, apiKey)
+    .then(collegesData => console.log(collegesData))
+    .catch(error => console.error(error));
+
+
+
+
 
 // Extended mock data to include both colleges and people
 const mockData = {
