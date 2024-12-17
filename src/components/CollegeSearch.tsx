@@ -34,7 +34,7 @@ async function searchColleges(city, apiKey) {
         if (response.data.results) {
             const colleges = response.data.results.map((college, index) => ({
                 id: index + 1,
-                name: college.name,
+                name: college.name+' '+college.formatted_address,
                 country: college.formatted_address.split(",").pop().trim(), // Extract country from address
                 type: 'college' // Assuming all results are colleges
             }));
