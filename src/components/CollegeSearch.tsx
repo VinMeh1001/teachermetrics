@@ -39,16 +39,23 @@ const CollegeSearch = ({ onSelect }: CollegeSearchProps) => {
     const fetchColleges = async (city: string) => {
         setLoading(true);
         setError(null);
+        
+        console.log(`Fetching colleges for city: ${city}`); // Debugging line
+        
         try {
             const endpoint = 'https://maps.googleapis.com/maps/api/place/textsearch/json';
             const query = `colleges in ${city}`;
+            console.log(`Query: ${query}, API Key: ${apiKey}`); // Log parameters
+            
             const response = await axios.get(endpoint, {
                 params: {
                     query: query,
                     key: apiKey
                 }
             });
-
+            
+            console.log('API Response:', response.data); // Log response
+            
             if (response.data.results) {
                 const fetchedColleges = response.data.results.map((college, index) => ({
                     id: index + 1,
