@@ -50,7 +50,7 @@ async function searchColleges(city, apiKey) {
 }
 
 // Example usage
-const apiKey = 'YOUR_API_KEY'; // Replace with your actual Google Places API key
+const apiKey = 'AIzaSyAn94lwvUD8OqfBQxGgsTuEWr-oilb9c3U'; // Replace with your actual Google Places API key
 const city = 'New York';
 
 searchColleges(city, apiKey)
