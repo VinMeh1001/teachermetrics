@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
@@ -22,7 +21,6 @@ interface SearchResult {
     name: string;
     country: string;
     type: "college" | "teacher" | "student";
-    institution?: string; // Optional for teachers and students
 }
 
 interface CollegeSearchProps {
@@ -97,8 +95,8 @@ const CollegeSearch = ({ onSelect }: CollegeSearchProps) => {
     // Filtering logic based on search value
     const filterResults = (query: string): SearchResult[] => {
         const lowercaseQuery = query.toLowerCase();
-        const results: SearchResult[] = [];
-        
+        const results = [];
+
         // Search colleges
         results.push(...mockData.colleges.filter(college =>
             college.name.toLowerCase().includes(lowercaseQuery) ||
