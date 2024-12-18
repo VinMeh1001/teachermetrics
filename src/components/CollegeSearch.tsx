@@ -73,6 +73,8 @@ const CollegeSearch = ({ onSelect }: CollegeSearchProps) => {
         setSearchValue(value);
         if (value.length > 2) { // Fetch only if input length is greater than 2
             fetchColleges(value); // Call fetch with the city name
+        } else {
+            setColleges([]); // Clear results if input is less than 3 characters
         }
     };
 
@@ -161,7 +163,40 @@ const CollegeSearch = ({ onSelect }: CollegeSearchProps) => {
                                 ))}
                             </CommandGroup>
                         )}
-                        {/* Add similar sections for teachers and students */}
+                        {groupedResults.teachers.length > 0 && (
+                            <CommandGroup heading="Teachers">
+                                {groupedResults.teachers.map((result) => (
+                                    <CommandItem key={`teacher-${result.id}`} value={result.name} onSelect={() => {
+                                        onSelect(result);
+                                        setSearchValue(result.name);
+                                        setOpen(false);
+                                    }} className="flex items-center justify-between">
+                                        <div>
+                                            <span>{result.name}</span>
+                                            <span className="text-sm text-gray-500 block">{result.institution}</span>
+                                        </div>
+                                        <span className="text-sm text-gray-500">{result.country}</span>
+                                    </CommandItem>
+                                ))}
+                            </CommandGroup>
+                        )}
+                        {groupedResults.students.length > 0 && (
+                            <CommandGroup heading="Students">
+                                {groupedResults.students.map((result) => (
+                                    <CommandItem key={`student-${result.id}`} value={result.name} onSelect={() => {
+                                        onSelect(result);
+                                        setSearchValue(result.name);
+                                        setOpen(false);
+                                    }} className="flex items-center justify-between">
+                                        <div>
+                                            <span>{result.name}</span>
+                                            <span className="text-sm text-gray-500 block">{result.institution}</span>
+                                        </div>
+                                        <span className="text-sm text-gray-500">{result.country}</span>
+                                    </CommandItem>
+                                ))}
+                            </CommandGroup>
+                        )}
                         {!loading && !error && !filteredResults.length && (
                             <CommandEmpty>No results found.</CommandEmpty>
                         )}
