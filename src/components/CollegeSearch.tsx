@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
@@ -36,7 +35,7 @@ const CollegeSearch = ({ onSelect }: CollegeSearchProps) => {
     const [loading, setLoading] = useState(false); // Loading state
     const [error, setError] = useState<string | null>(null); // Error state
 
-    const apiKey = AIzaSyAn94lwvUD8OqfBQxGgsTuEWr-oilb9c3U; // Use environment variable for API key
+    const apiKey = 'AIzaSyAn94lwvUD8OqfBQxGgsTuEWr-oilb9c3U'; // Replace with your actual Google Places API key
 
     // Function to fetch colleges from the Google Places API
     const fetchColleges = async (city: string) => {
