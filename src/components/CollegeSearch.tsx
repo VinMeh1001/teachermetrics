@@ -35,7 +35,7 @@ const CollegeSearch = ({ onSelect }: CollegeSearchProps) => {
     const [loading, setLoading] = useState(false); // Loading state
     const [error, setError] = useState<string | null>(null); // Error state
 
-    const apiKey = process.env.AIzaSyAn94lwvUD8OqfBQxGgsTuEWr-oilb9c3U; // Use environment variable for API key
+    const apiKey = AIzaSyAn94lwvUD8OqfBQxGgsTuEWr-oilb9c3U; // Use environment variable for API key
 
     // Function to fetch colleges from the Google Places API
     const fetchColleges = async (city: string) => {
