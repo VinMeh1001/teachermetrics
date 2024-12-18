@@ -21,6 +21,7 @@ interface SearchResult {
     name: string;
     country: string;
     type: "college" | "teacher" | "student";
+    institution?: string;
 }
 
 interface CollegeSearchProps {
